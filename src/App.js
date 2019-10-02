@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import { getAllStarships } from '../src/services/starships';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+	state = {
+		starships: []
+	};
+
+	getStarship = (idx) => {
+		return this.state.starships[idx];
+	};
+
+	async componentDidMount() {
+		const starships = await getAllStarships();
+		this.setState({ starships: starships.results });
+	}
+
+	render() {
+		return (
+			<div className="App">
+				<section>{this.state.starships.map((starship) => {})}</section>
+			</div>
+		);
+	}
 }
 
 export default App;

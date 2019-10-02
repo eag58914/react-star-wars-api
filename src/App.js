@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import { getAllStarships } from '../src/services/starships';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Link } from 'react-router-dom';
+import StarshipPage from './pages/StarShipPage';
 
 class App extends Component {
 	state = {
@@ -20,7 +21,26 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<section>{this.state.starships.map((starship) => {})}</section>
+				<header className="App-header">STAR WARS STARSHIPS</header>
+				<Switch>
+					<Router
+						exact
+						path="/"
+						render={() => (
+							<section>
+								{this.state.starships.map((starship, idx) => (
+									<Link to={`/starships/${idx}`} key={starship.name}>
+										{starship.name}
+									</Link>
+								))}
+							</section>
+						)}
+					/>
+					<Router
+						path="/starships/:idx"
+						render={(props) => <StarshipPage {...props} getStarship={this.getStarship} />}
+					/>
+				</Switch>
 			</div>
 		);
 	}
